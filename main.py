@@ -245,6 +245,28 @@ def update_book(book_id):
 
     return render_template('update_book.html', book=book, publishers=publishers)
 
+
+# Update a customer
+@app.route('/customers/update/<int:customer_id>', methods=['GET', 'POST'])
+def update_customer(customer_id):
+    conn = get_db()
+    cursor = conn.cursor()
+
+    if request.method == 'POST':
+        name = request.form['name']
+        email = request.form['email']
+        phone = request.form['phone']
+
+        cursor.execute('UPDATE Customers SET name=?, email=?, phone=? WHERE customer_id=?',
+                       (name, email, phone, customer_id))
+        conn.commit()
+        return redirect('/customers')
+
+    cursor.execute('SELECT * FROM Customers WHERE customer_id=?', (customer_id,))
+    customer = cursor.fetchone()
+    return render_template('update_customer.html', customer=customer, customer_id=customer_id)
+
+
 # Update an order
 @app.route('/orders/update/<int:order_id>', methods=['GET', 'POST'])
 def update_order(order_id):
