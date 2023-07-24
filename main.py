@@ -113,6 +113,18 @@ def update_publisher(publisher_id):
 
 
 
+# Delete a publisher
+@app.route('/publishers/delete/<string:publisher_id>', methods=['POST'])
+def delete_publisher(publisher_id):
+    conn = get_db()
+    cursor = conn.cursor()
+
+    cursor.execute('DELETE FROM Publisher WHERE publisher_id=?', (publisher_id,))
+    conn.commit()
+    return redirect('/publishers')
+
+
+
 # Home page
 @app.route('/')
 def index():
