@@ -58,6 +58,18 @@ with app.app_context():
     cursor.close()
     conn.close()
 
+# Display all publishers
+@app.route('/publishers')
+def display_publishers():
+    conn = get_db()
+    cursor = conn.cursor()
+    cursor.execute('SELECT * FROM Publisher')
+    publishers = cursor.fetchall()
+    return render_template('publishers.html', publishers=publishers)
+
+
+
+
 # Home page
 @app.route('/')
 def index():

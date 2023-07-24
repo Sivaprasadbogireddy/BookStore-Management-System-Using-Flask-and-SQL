@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Bookstore Management System - Publishers</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        /* Style the table with borders and spacing */
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        /* Style the form to display inline */
+        form {
+            display: inline;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Add some spacing between the buttons */
+        form + form {
+            margin-left: 10px;
+        }
+
+        /* Style the publisher box */
+        .publisher-box {
+            border: 1px solid #dddddd;
+            padding: 10px;
+            margin: 10px;
+            width: 300px;
+            display: inline-block;
+        }
+
+        /* Center the publisher boxes */
+        .publishers-container {
+            text-align: center;
+        }
+
+        /* Style the "Add Publisher" button */
+        .add-publisher-button {
+            display: inline-block;
+            background-color: #4CAF50;
+            color: white;
+            padding: 8px 16px;
+            text-align: center;
+            text-decoration: none;
+            font-size: 16px;
+            margin: 10px;
+            cursor: pointer;
+            border: none;
+            border-radius: 4px;
+        }
+
+        .add-publisher-button:hover {
+            background-color: #45a049;
+        }
+
+        /* Home button style */
+        .home-button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 8px 16px;
+            text-align: center;
+            text-decoration: none;
+            font-size: 16px;
+            margin: 10px;
+            cursor: pointer;
+            border: none;
+            border-radius: 4px;
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+
+        .home-button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <a href="/" class="home-button">Home</a> <!-- Home button -->
+    <h1>Publishers</h1>
+    <form action="/publishers/search" method="GET">
+        <label>Search Publishers:</label>
+        <input type="text" name="query" placeholder="Enter publisher name or ID">
+        <button type="submit">Search</button>
+    </form>
+    <br>
+    <div class="publishers-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Publisher ID</th> <!-- This is the Publisher ID column -->
+                    <th>Publisher Name</th>
+                    <th>Publication Address</th>
+                    <th>Publication Phone Number</th>
+                    <th>Publication Website</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for publisher in publishers %}
+                <tr>
+                    <td>{{ publisher[0] }}</td> <!-- Display the Publisher ID -->
+                    <td>{{ publisher[1] }}</td>
+                    <td>{{ publisher[2] }}</td>
+                    <td>{{ publisher[3] }}</td>
+                    <td>{{ publisher[4] }}</td>
+                    <td>
+                        <form action="/publishers/update/{{ publisher[0] }}" method="get">
+                            <button type="submit">Update</button>
+                        </form>
+                        <form action="/publishers/delete/{{ publisher[0] }}" method="post">
+                            <button type="submit">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <a href="/publishers/add" class="add-publisher-button">Add New Publisher</a>
+</body>
+</html>
