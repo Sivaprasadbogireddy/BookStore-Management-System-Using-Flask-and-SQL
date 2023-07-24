@@ -78,6 +78,16 @@ def display_books():
     books = cursor.fetchall()
     return render_template('books.html', books=books)
 
+# Display all customers
+@app.route('/customers')
+def display_customers():
+    conn = get_db()
+    cursor = conn.cursor()
+    cursor.execute('SELECT * FROM Customers')
+    customers = cursor.fetchall()
+    return render_template('customers.html', customers=customers)
+
+
 
 # Add a new publisher
 @app.route('/publishers/add', methods=['GET', 'POST'])
