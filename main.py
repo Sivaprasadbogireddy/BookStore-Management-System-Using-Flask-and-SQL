@@ -60,6 +60,12 @@ with app.app_context():
     cursor.close()
     conn.close()
 
+
+# Home page
+@app.route('/')
+def index():
+    return render_template('index.html')
+
 # Display all publishers
 @app.route('/publishers')
 def display_publishers():
@@ -87,6 +93,19 @@ def display_customers():
     customers = cursor.fetchall()
     return render_template('customers.html', customers=customers)
 
+# Display all orders
+@app.route('/orders')
+def display_orders():
+    conn = get_db()
+    cursor = conn.cursor()
+    cursor.execute('''SELECT Orders.order_id, Customers.customer_id, Customers.name, Books.title, Orders.quantity, Orders.order_date, Orders.Total_Price
+                    FROM Orders
+                    JOIN Customers ON Orders.customer_id = Customers.customer_id
+                    JOIN Books ON Orders.book_id = Books.book_id''')
+    orders = cursor.fetchall()
+    return render_template('orders.html', orders=orders)
+
+
 # Display all orders by customer
 @app.route('/customers/orders/<int:customer_id>')
 def display_customer_orders(customer_id):
@@ -100,6 +119,42 @@ def display_customer_orders(customer_id):
     customer_orders = cursor.fetchall()
     return render_template('customer_orders.html', customer_orders=customer_orders)
 
+# Search for customers by name or email
+@app.route('/customers/search', methods=['GET'])
+def search_customers():
+    conn = get_db()
+    cursor = conn.cursor()
+    search_query = request.args.get('query', '').strip()
+
+    if search_query:
+        # Perform the search query
+        cursor.execute('SELECT * FROM Customers WHERE name LIKE ? OR email LIKE ?',
+                       ('%' + search_query + '%', '%' + search_query + '%'))
+        customers = cursor.fetchall()
+    else:
+        # If no search query provided, return all customers
+        cursor.execute('SELECT * FROM Customers')
+        customers = cursor.fetchall()
+
+    return render_template('customers.html', customers=customers)
+
+# Search books
+@app.route('/books/search', methods=['GET'])
+def search_books():
+    search_query = request.args.get('query', '').strip()
+
+    if not search_query:
+        # If the search query is empty, display all books
+        return redirect('/books')
+
+    conn = get_db()
+    cursor = conn.cursor()
+
+    # Perform the search query using SQL LIKE clause to filter the results
+    cursor.execute('SELECT * FROM Books WHERE book_id LIKE ? OR title LIKE ? OR author LIKE ?', ('%' + search_query + '%', '%' + search_query + '%', '%' + search_query + '%'))
+    books = cursor.fetchall()
+
+    return render_template('books.html', books=books)
 
 
 # Add a new publisher
@@ -339,14 +394,38 @@ def delete_book(book_id):
     conn.commit()
     return redirect('/books')
 
+# Delete an order
+@app.route('/orders/delete/<int:order_id>', methods=['POST'])
+def delete_order(order_id):
+    conn = get_db()
+    cursor = conn.cursor()
 
+    cursor.execute('DELETE FROM Orders WHERE order_id=?', (order_id,))
+    conn.commit()
+    return redirect('/orders')
 
-# Home page
-@app.route('/')
-def index():
-    return render_template('index.html')
+# Delete a customer
+@app.route('/customers/delete/<int:customer_id>', methods=['POST'])
+def delete_customer(customer_id):
+    conn = get_db()
+    cursor = conn.cursor()
 
+    cursor.execute('DELETE FROM Customers WHERE customer_id=?', (customer_id,))
+    conn.commit()
+    return redirect('/customers')
 
+# Display publisher details
+@app.route('/publishers/<string:publisher_id>')
+def display_publisher_details(publisher_id):
+    conn = get_db()
+    cursor = conn.cursor()
+    cursor.execute('SELECT * FROM Publisher WHERE publisher_id=?', (publisher_id,))
+    publisher = cursor.fetchone()
+
+    if publisher:
+        return render_template('publisher_details.html', publisher=publisher)
+    else:
+        return "Publisher not found.", 404
 
 
 # Run the application

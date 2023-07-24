@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Bookstore Management System - Publisher Details</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            color: #333333;
+            margin-top: 30px;
+        }
+
+        .publisher-details {
+            max-width: 600px;
+            margin: 20px auto;
+            background-color: #ffffff;
+            border: 1px solid #dddddd;
+            border-radius: 5px;
+            padding: 20px;
+        }
+
+        .publisher-details table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .publisher-details th, .publisher-details td {
+            border: 1px solid #dddddd;
+            padding: 10px;
+            text-align: left;
+        }
+
+        .publisher-details th {
+            background-color: #f2f2f2;
+        }
+
+        .publisher-details strong {
+            font-weight: bold;
+        }
+
+        .back-button {
+            display: inline-block;
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            font-size: 16px;
+            border: none;
+            border-radius: 4px;
+            margin-top: 20px;
+        }
+
+        .home-button {
+            display: inline-block;
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            font-size: 16px;
+            border: none;
+            border-radius: 4px;
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+
+        .back-button:hover, .home-button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <a href="/" class="home-button">Home</a> <!-- Home button -->
+
+    <h1>Publisher Details</h1>
+    <div class="publisher-details">
+        <table>
+            <tr>
+                <th><strong>Publisher ID</strong></th>
+                <td>{{ publisher[0] }}</td>
+            </tr>
+            <tr>
+                <th><strong>Publisher Name</strong></th>
+                <td>{{ publisher[1] }}</td>
+            </tr>
+            <tr>
+                <th><strong>Publication Address</strong></th>
+                <td>{{ publisher[2] }}</td>
+            </tr>
+            <tr>
+                <th><strong>Publication Phone</strong></th>
+                <td>{{ publisher[3] }}</td>
+            </tr>
+            <tr>
+                <th><strong>Publication Website</strong></th>
+                <td>{{ publisher[4] }}</td>
+            </tr>
+        </table>
+    </div>
+    <br>
+    <a href="/books" class="back-button">Back to All Books</a>
+</body>
+</html>
