@@ -98,6 +98,33 @@ def add_publisher():
 
     return render_template('add_publisher.html')
 
+# Add a new book
+@app.route('/books/add', methods=['GET', 'POST'])
+def add_book():
+    if request.method == 'POST':
+        conn = get_db()
+        cursor = conn.cursor()
+        title = request.form['title']
+        author = request.form['author']
+        price = request.form['price']
+        publication_year = request.form['publication_year']
+        publisher_id = request.form['publisher_id']  # Get the selected publisher_id from the form
+
+        # Generate a 6-digit unique book ID
+        book_id = str(uuid.uuid4().int)[:6]
+
+        cursor.execute('INSERT INTO Books (book_id, title, author, price, publication_year, publisher_id) VALUES (?, ?, ?, ?, ?, ?)',
+                       (book_id, title, author, price, publication_year, publisher_id))
+        conn.commit()
+        return redirect('/books')
+
+    conn = get_db()
+    cursor = conn.cursor()
+    cursor.execute('SELECT publisher_id, publisher_name FROM Publisher')
+    publishers = cursor.fetchall()  # Fetch all the publishers to display in the dropdown select field
+
+    return render_template('add_book.html', publishers=publishers)
+
 
 # Update a publisher
 @app.route('/publishers/update/<string:publisher_id>', methods=['GET', 'POST'])
