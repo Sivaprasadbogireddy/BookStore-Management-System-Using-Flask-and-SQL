@@ -29,7 +29,9 @@ with app.app_context():
                         title TEXT,
                         author TEXT,
                         price REAL,
-                        publication_year INTEGER
+                        publication_year INTEGER,
+                        publisher_id INTEGER,
+                        FOREIGN KEY (publisher_id) REFERENCES Publisher (publisher_id) 
                     )''')
     cursor.execute('''CREATE TABLE IF NOT EXISTS Publisher_Books_Junction (
                         publisher_id TEXT,
@@ -148,6 +150,34 @@ def update_publisher(publisher_id):
     return render_template('update_publisher.html', publisher=publisher, publisher_id=publisher_id)
 
 
+# Update a book
+@app.route('/books/update/<int:book_id>', methods=['GET', 'POST'])
+def update_book(book_id):
+    conn = get_db()
+    cursor = conn.cursor()
+
+    if request.method == 'POST':
+        title = request.form['title']
+        author = request.form['author']
+        price = request.form['price']
+        publication_year = request.form['publication_year']
+        publisher_id = request.form['publisher_id']  # Get the selected publisher_id from the form
+
+        cursor.execute('UPDATE Books SET title=?, author=?, price=?, publication_year=?, publisher_id=? WHERE book_id=?',
+                       (title, author, price, publication_year, publisher_id, book_id))
+        conn.commit()
+        return redirect('/books')
+
+    cursor.execute('SELECT * FROM Books WHERE book_id=?', (book_id,))
+    book = cursor.fetchone()
+
+    cursor.execute('SELECT publisher_id, publisher_name FROM Publisher')
+    publishers = cursor.fetchall()  # Fetch all the publishers to display in the dropdown select field
+
+    return render_template('update_book.html', book=book, publishers=publishers)
+
+
+
 
 # Delete a publisher
 @app.route('/publishers/delete/<string:publisher_id>', methods=['POST'])
@@ -158,6 +188,16 @@ def delete_publisher(publisher_id):
     cursor.execute('DELETE FROM Publisher WHERE publisher_id=?', (publisher_id,))
     conn.commit()
     return redirect('/publishers')
+
+# Delete a book
+@app.route('/books/delete/<int:book_id>', methods=['POST'])
+def delete_book(book_id):
+    conn = get_db()
+    cursor = conn.cursor()
+
+    cursor.execute('DELETE FROM Books WHERE book_id=?', (book_id,))
+    conn.commit()
+    return redirect('/books')
 
 
 
