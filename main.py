@@ -140,6 +140,43 @@ def add_book():
 
     return render_template('add_book.html', publishers=publishers)
 
+# Add a new order
+@app.route('/orders/add', methods=['GET', 'POST'])
+def add_order():
+    if request.method == 'POST':
+        conn = get_db()
+        cursor = conn.cursor()
+
+        customer_id = request.form['customer_id']
+        book_id = request.form['book_id']
+        quantity = request.form['quantity']
+        order_date = request.form['order_date']
+
+        # Generate the Order ID
+        order_id = str(uuid.uuid4().int)[:8]
+
+        # Retrieve the book price
+        cursor.execute('SELECT price FROM Books WHERE book_id = ?', (book_id,))
+        book_price = cursor.fetchone()[0]
+
+        # Calculate the order price
+        order_price = float(quantity) * float(book_price)
+
+        # Insert the order into the database with the customer_id included
+        cursor.execute('INSERT INTO Orders (order_id, customer_id, book_id, quantity, order_date, Total_price) VALUES (?, ?, ?, ?, ?, ?)',
+                       (order_id, customer_id, book_id, quantity, order_date, order_price))
+
+        conn.commit()
+        return redirect('/orders')
+
+    conn = get_db()
+    cursor = conn.cursor()
+    cursor.execute('SELECT * FROM Customers')
+    customers = cursor.fetchall()
+    cursor.execute('SELECT * FROM Books')
+    books = cursor.fetchall()
+
+    return render_template('add_order.html', customers=customers, books=books)
 
 # Update a publisher
 @app.route('/publishers/update/<string:publisher_id>', methods=['GET', 'POST'])
@@ -189,6 +226,42 @@ def update_book(book_id):
 
     return render_template('update_book.html', book=book, publishers=publishers)
 
+# Update an order
+@app.route('/orders/update/<int:order_id>', methods=['GET', 'POST'])
+def update_order(order_id):
+    conn = get_db()
+    cursor = conn.cursor()
+
+    if request.method == 'POST':
+        customer_id = request.form['customer_id']
+        book_id = request.form['book_id']
+        quantity = request.form['quantity']
+        order_date = request.form['order_date']
+
+        # Retrieve the book price
+        cursor.execute('SELECT price FROM Books WHERE book_id = ?', (book_id,))
+        book_price = cursor.fetchone()[0]
+
+        # Calculate the order price
+        order_price = float(quantity) * float(book_price)
+
+        cursor.execute('UPDATE Orders SET customer_id=?, book_id=?, quantity=?, order_date=?, Total_price=? WHERE order_id=?',
+                       (customer_id, book_id, quantity, order_date, order_price, order_id))
+        conn.commit()
+        return redirect('/orders')
+
+    cursor.execute('''SELECT Orders.order_id, Customers.name, Books.title, Orders.quantity, Orders.order_date, Orders.Total_price
+                    FROM Orders
+                    JOIN Customers ON Orders.customer_id = Customers.customer_id
+                    JOIN Books ON Orders.book_id = Books.book_id
+                    WHERE order_id=?''', (order_id,))
+    order = cursor.fetchone()
+    cursor.execute('SELECT * FROM Customers')
+    customers = cursor.fetchall()
+    cursor.execute('SELECT * FROM Books')
+    books = cursor.fetchall()
+
+    return render_template('update_order.html', order=order, customers=customers, books=books)
 
 
 
