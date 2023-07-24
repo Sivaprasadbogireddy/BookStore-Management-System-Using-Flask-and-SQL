@@ -87,6 +87,19 @@ def display_customers():
     customers = cursor.fetchall()
     return render_template('customers.html', customers=customers)
 
+# Display all orders by customer
+@app.route('/customers/orders/<int:customer_id>')
+def display_customer_orders(customer_id):
+    conn = get_db()
+    cursor = conn.cursor()
+    cursor.execute('''SELECT Orders.order_id, Customers.customer_id, Customers.name, Books.title, Orders.quantity, Orders.order_date, Orders.Total_price
+                    FROM Orders
+                    JOIN Customers ON Orders.customer_id = Customers.customer_id
+                    JOIN Books ON Orders.book_id = Books.book_id
+                    WHERE Customers.customer_id = ?''', (customer_id,))
+    customer_orders = cursor.fetchall()
+    return render_template('customer_orders.html', customer_orders=customer_orders)
+
 
 
 # Add a new publisher

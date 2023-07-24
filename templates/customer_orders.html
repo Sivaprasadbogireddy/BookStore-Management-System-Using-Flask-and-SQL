@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Bookstore Management System - Customer Orders</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        /* Style the table with borders and spacing */
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        /* Home button style */
+        .home-button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 8px 16px;
+            text-align: center;
+            text-decoration: none;
+            font-size: 16px;
+            margin-top: 10px;
+            margin-right: 10px;
+            cursor: pointer;
+            border: none;
+            border-radius: 4px;
+        }
+
+        .home-button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <a href="/" class="home-button">Home</a> <!-- Home button -->
+    <h1>Customer Orders</h1>
+    {% if customer_orders %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Order ID</th>
+                    <th>Customer ID</th>
+                    <th>Customer Name</th>
+                    <th>Book Title</th>
+                    <th>Quantity</th>
+                    <th>Order Date</th>
+                    <th>Order Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in customer_orders %}
+                <tr>
+                    <td>{{ order[0] }}</td>
+                    <td>{{ order[1] }}</td>
+                    <td>{{ order[2] }}</td>
+                    <td>{{ order[3] }}</td>
+                    <td>{{ order[4] }}</td>
+                    <td>{{ order[5] }}</td>
+                    <td>{{order[6]}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No orders found for this customer.</p>
+    {% endif %}
+</body>
+</html>
