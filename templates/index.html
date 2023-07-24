@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Bookstore Management System</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        body {
+            /* Your background photo styles... */
+            background-image: url("image1.jpg");
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center center;
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Center content horizontally */
+            margin: 20px;
+        }
+
+        .header {
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 10px;
+            margin-bottom: 20px;
+            max-width: 500px; /* Limit the width of the header */
+            text-align: center;
+        }
+        .footer {
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 10px;
+            padding: 10px;
+            text-align: center;
+            margin-top: 20px;
+            max-width: 500px;
+        }
+
+        /* Copyright text style */
+        .copyright {
+            font-size: 12px;
+            color: #333;
+            margin-top: 10px;
+        }
+        .menu {
+            padding: 0;
+            display: flex;
+            justify-content: center; /* Center list items horizontally */
+        }
+
+        .menu li {
+            margin: 9px;
+            background-color: #4CAF59; /* Green color */
+            padding: 11px;
+            border-radius: 10px;
+            list-style: none; /* Remove bullet points */
+        }
+
+        /* Style the links */
+        .menu li a {
+            text-decoration: none;
+            color: #333;
+        }
+
+        /* Style for the heading */
+        .store-heading {
+            font-size: 36px;
+            font-weight: bold;
+            color: #ff6600; /* Change the color to orange (#ff6600) */
+            
+        }
+
+        /* Style the home button */
+        .menu li.home {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+
+         /* Home button style */
+         .home-button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 8px 16px;
+            text-align: center;
+            text-decoration: none;
+            font-size: 16px;
+            margin-top: 10px;
+            margin-right: 10px;
+            cursor: pointer;
+            border: none;
+            border-radius: 4px;
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+        .creator-info {
+            font-size: 20px;
+            color: #0000FF;
+            margin-top: 8px;
+            font-weight:bold
+        }
+        .dotted-line {
+            border-top: 3px dotted #888;
+            margin: 10px 0;
+        }
+        .home-button:hover {
+            background-color: #45a049;
+        }
+        .creator-info-box {
+            background-color: rgba(255, 255, 255, 0.8);
+            border: 1px solid #333; /* Add a border */
+            border-radius: 10px;
+            padding: 10px;
+            max-width: 500px;
+            text-align: center;
+            margin: 20px auto; /* Center the box horizontally and add some margin */
+        }
+        
+        .moving-text {
+            position: absolute;
+            top: 0;
+            right: 100%;
+            white-space: nowrap;
+            animation: move-right 40s linear infinite;
+            font-size: 24px;
+        }
+        @keyframes move-right {
+            0% { left: 100%; }
+            100% { left: -100%; }
+        }
+        .separator {
+            border-top: 2px solid #000;
+            margin: 1px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1 class="store-heading">CS665 Group3 Book Store </h1>
+        <p class="moving-text">Welcome to our Bookstore!</p>
+        <div class="menu">
+            <ul>
+                <li><a href="/books">Books Management</a></li>
+                <li><a href="/customers">Customers Management</a></li>
+                <li><a href="/orders">Orders Management</a></li>
+                <li><a href="/publishers">Publisher Management</a></li> <!-- Publisher Management button -->
+                <a href="/" class="home-button">Home</a> <!---- Home button -->
+            </ul>
+        </div>
+        <div class="footer">
+            <div class="separator"></div>
+            <p>&copy;2023 CS665 Group3 Book Store. All rights reserved.</p>
+            <p>Address: 123 Main Street, Cityville, KS, USA 10000</p>
+            <p>Email: contact@example.com | Phone: +1 234-567-8901</p>
+            <!--<div class="dotted-line"></div>  Dotted line separator -->
+            <div class="creator-info-box">
+                <p class="creator-info">Created by: Group 3 of CS665 - Summer 2023</p>
+                <p class="creator-info">Team members: Sivaprasad Reddy Bogireddy and Prasanth Sidduri</p>
+                <p class="creator-info">School of Computing, Wichita State University</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
