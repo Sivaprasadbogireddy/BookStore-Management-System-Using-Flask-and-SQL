@@ -78,17 +78,14 @@ def display_books():
     books = cursor.fetchall()
     return render_template('books.html', books=books)
 
-# Display all orders
-@app.route('/orders')
-def display_orders():
+# Display all customers
+@app.route('/customers')
+def display_customers():
     conn = get_db()
     cursor = conn.cursor()
-    cursor.execute('''SELECT Orders.order_id, Customers.customer_id, Customers.name, Books.title, Orders.quantity, Orders.order_date, Orders.Total_Price
-                    FROM Orders
-                    JOIN Customers ON Orders.customer_id = Customers.customer_id
-                    JOIN Books ON Orders.book_id = Books.book_id''')
-    orders = cursor.fetchall()
-    return render_template('orders.html', orders=orders)
+    cursor.execute('SELECT * FROM Customers')
+    customers = cursor.fetchall()
+    return render_template('customers.html', customers=customers)
 
 
 
