@@ -137,6 +137,28 @@ def add_book():
 
     return render_template('add_book.html', publishers=publishers)
 
+
+# Add a new customer
+@app.route('/customers/add', methods=['GET', 'POST'])
+def add_customer():
+    if request.method == 'POST':
+        conn = get_db()
+        cursor = conn.cursor()
+        name = request.form['name']
+        email = request.form['email']
+        phone = request.form['phone']
+
+        # Generate a 10-digit customer ID
+        customer_id = str(uuid.uuid4().int)[:10]
+
+        cursor.execute('INSERT INTO Customers (customer_id, name, email, phone) VALUES (?, ?, ?, ?)',
+                       (customer_id, name, email, phone))
+        conn.commit()
+        return redirect('/customers')
+
+    return render_template('add_customer.html')
+
+
 # Add a new order
 @app.route('/orders/add', methods=['GET', 'POST'])
 def add_order():
