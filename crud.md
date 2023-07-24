@@ -1,7 +1,7 @@
 # CRUD operations on books table
 select * from Books;
 
-INSERT INTO Books (book_id, title, author, price, publication_year) VALUES  (174855,	'Computer Networks: A Systems Approach',	'Larry L. Peterson',	69.8,	2017);
+INSERT INTO Books (book_id, title, author, price, publication_year,publisher_id,publisher_id) VALUES  (174855,	'Computer Networks: A Systems Approach',	'Larry L. Peterson',	69.8,	2017,17881);
 
 UPDATE Books 
 SET publication_year=2020 
