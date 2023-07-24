@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Bookstore Management System - Orders</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        /* Style the table with borders and spacing */
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: Center;
+            padding: 8px;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        /* Style the form to display inline */
+        form {
+            display: inline;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Add some spacing between the buttons */
+        form + form {
+            margin-left: 10px;
+        }
+
+        /* Style the search box */
+        .search-box {
+            margin-top: 10px;
+            padding: 5px;
+        }
+
+        .search-box input[type="text"] {
+            width: 200px;
+            padding: 5px;
+        }
+
+        .search-box button {
+            padding: 5px;
+        }
+
+        /* Style the "Add New Order" button */
+        .add-order-button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 8px 16px;
+            text-align: center;
+            text-decoration: none;
+            font-size: 16px;
+            margin: 10px;
+            cursor: pointer;
+            border: none;
+            border-radius: 4px;
+        }
+
+        .add-order-button:hover {
+            background-color: #45a049;
+        }
+
+        /* Home button style */
+        .home-button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 8px 16px;
+            text-align: center;
+            text-decoration: none;
+            font-size: 16px;
+            margin-top: 10px;
+            margin-right: 10px;
+            cursor: pointer;
+            border: none;
+            border-radius: 4px;
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+
+        .home-button:hover {
+            background-color: #45a049;
+        }
+
+        .goto-button1 {
+            background-color: #4CAF50;
+            color: white;
+            padding: 8px 16px;
+            text-align: center;
+            text-decoration: none;
+            font-size: 16px;
+            margin: 10px;
+            cursor: pointer;
+            border: none;
+            position: absolute;
+            top: 20px;
+            border-radius: 4px;
+            left: 150px;
+        }
+        .goto-button2 {
+            background-color: #4CAF50;
+            color: white;
+            padding: 8px 16px;
+            text-align: center;
+            text-decoration: none;
+            font-size: 16px;
+            margin: 10px;
+            cursor: pointer;
+            border: none;
+            position: absolute;
+            top: 20px;
+            border-radius: 4px;
+            left: 350px;
+        }
+    </style>
+</head>
+<body>
+    <a href="/" class="home-button">Home</a> <!-- Home button -->
+    <a href="/books" class="goto-button1">Books</a>
+    <a href="/customers" class="goto-button2">Customers</a>
+    <h1>Orders</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Order ID</th>
+                <th>Customer ID</th>
+                <th>Customer Name</th>
+                <th>Book Title</th>
+                <th>Quantity</th>
+                <th>Order Date</th>
+                <th>Total Order Price</th>
+                <th>Actions</th> <!-- New column for actions: Update and Delete buttons -->
+            </tr>
+        </thead>
+        <tbody>
+            {% for order in orders %}
+            <tr>
+                <td>{{ order[0] }}</td>
+                <td>{{ order[1] }}</td>
+                <td>{{ order[2] }}</td>
+                <td>{{ order[3] }}</td>
+                <td>{{ order[4] }}</td>
+                <td>{{ order[5] }}</td>
+                <td>${{ order[6] }}</td>
+                <td>
+                    <!-- Use the button element for the Update action -->
+                    <form action="/orders/update/{{ order[0] }}" method="get">
+                        <button type="submit">Update</button>
+                    </form>
+
+                    <!-- Add the Delete button with a link to the delete endpoint -->
+                    <form action="/orders/delete/{{ order[0] }}" method="post">
+                        <input type="submit" value="Delete">
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a href="/orders/add" class="add-order-button">Add New Order</a>
+    <p style="text-align: center;">&copy;2023 CS665 Group3 Book Store. All rights reserved.</p>
+</body>
+</html>
