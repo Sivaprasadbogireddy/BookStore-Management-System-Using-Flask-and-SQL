@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Bookstore Management System - Add Publisher</title>
+    <style>
+        body {
+            text-align: center;
+        }
+
+        /* Style the form */
+        form {
+            display: inline-block;
+            text-align: left;
+            padding: 20px;
+            border: 1px solid #dddddd;
+            border-radius: 5px;
+            margin: 20px;
+            max-width: 400px;
+        }
+
+        form label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        form input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #cccccc;
+            border-radius: 3px;
+        }
+
+        form input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+            border: none;
+            border-radius: 4px;
+            padding: 8px 16px;
+            font-size: 16px;
+        }
+
+        form input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        /* Back button style */
+        .back-button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 8px 16px;
+            text-align: center;
+            text-decoration: none;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            border-radius: 4px;
+            margin-top: 10px;
+        }
+
+        .back-button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h1>Add Publisher</h1>
+    <form action="/publishers/add" method="POST">
+        <label>Publisher Name:</label>
+        <input type="text" name="publisher_name"><br>
+        <label>Publication Address:</label>
+        <input type="text" name="publication_address"><br>
+        <label>Publication Phone Number:</label>
+        <input type="text" name="publication_phone"><br>
+        <label>Publication Website:</label>
+        <input type="Website" name="publication_email"><br>
+        <input type="submit" value="Add Publisher">
+    </form>
+    <a href="/publishers" class="back-button">Back</a> <!-- Back button -->
+</body>
+</html>
